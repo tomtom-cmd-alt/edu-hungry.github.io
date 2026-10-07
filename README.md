@@ -11,14 +11,14 @@ Welcome to my gaming corner! You can play any of the embedded games right here d
 
 ## Game 1: Space Invaders (Itch.io Example)
 <!-- Replace the src URL below with your game's actual embed URL -->
-<iframe src="https://itch.io" 
+<iframe src="./game.html" 
         width="800" 
         height="600" 
         frameborder="0" 
         allowfullscreen 
         scrolling="no"
         style="border: 2px solid #333; border-radius: 8px; max-width: 100%;">
-  <p>Your browser does not support iframes. <a href="https://itch.io">Play the game directly on Itch.io</a>.</p>
+  <p>Your browser does not support iframes. <a href="./game.html">Play the game directly on file.</a>.</p>
 </iframe>
 
 ***
