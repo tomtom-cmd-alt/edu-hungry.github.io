@@ -1,4 +1,62 @@
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(){
+  // Block redirects to algebra.best
+  window.redirectBlocked = false;
+  
+  // Intercept window.location changes
+  const handler = {
+    apply(target, thisArg, args) {
+      const url = String(args[0] || '');
+      if (url.includes('algebra.best')) {
+        console.warn('Redirect to algebra.best blocked:', url);
+        window.redirectBlocked = true;
+        return;
+      }
+      return Reflect.apply(target, thisArg, args);
+    }
+  };
+  
+  window.location.href = new Proxy(window.location.href, {});
+  
+  // Intercept location.assign/replace
+  const origAssign = window.location.assign;
+  const origReplace = window.location.replace;
+  
+  window.location.assign = function(url) {
+    if (String(url).includes('algebra.best')) {
+      console.warn('location.assign to algebra.best blocked:', url);
+      return;
+    }
+    origAssign.call(window.location, url);
+  };
+  
+  window.location.replace = function(url) {
+    if (String(url).includes('algebra.best')) {
+      console.warn('location.replace to algebra.best blocked:', url);
+      return;
+    }
+    origReplace.call(window.location, url);
+  };
+  
+  // Block clicks that try to navigate there
+  document.addEventListener('click', function(e) {
+    const href = e.target.href || e.target.getAttribute('href');
+    if (href && String(href).includes('algebra.best')) {
+      console.warn('Click to algebra.best blocked:', href);
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+  
+  // Intercept fetch/XHR to algebra.best (optional - log it)
+  const origFetch = window.fetch;
+  window.fetch = function(resource, ...args) {
+    const url = String(resource || '');
+    if (url.includes('algebra.best')) {
+      console.warn('Fetch to algebra.best attempted (not blocked):', url);
+    }
+    return origFetch.apply(this, [resource, ...args]);
+  };
+  
   const injectedHref = "https://1330484051-atari-embeds.googleusercontent.com/embeds/4ecafecc1008f433734df9cfcf919023/inner-frame-minified.html?jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.e[...]
   const siteUrl = "https://sites.google.com";
   const injectedDomain = "1330484051-atari-embeds.googleusercontent.com";
@@ -43,14 +101,14 @@
   //const AD_HOSTS = ['gamemonetize.com', 'gamedistribution.com'];
   //function isAdHost(url){ try { return AD_HOSTS.some(h => url.includes(h)); } catch(e){ return false; } }
   function absolutize(url){ try{ new URL(url); return url; }catch(e){ try { return new URL(url, BASE_FOR_REL).href; } catch(e2){ return url; } } }
-  function patchDomainParamToUrl(u){ try{ if(!(u instanceof URL)) u=new URL(u,location.href); const cur=u.searchParams.get('domain'); if(!cur||cur.trim()===''||cur.toLowerCase().startsWith('blob')){ u[...]
+  function patchDomainParamToUrl(u){ try{ if(!(u instanceof URL)) u=new URL(u,location.href); const cur=u.searchParams.get('domain'); if(!cur||cur.trim()===''||cur.toLowerCase().startsWith('blob')[...]
   const _fetch=window.fetch; window.fetch=function(i,n){ try{ let u=null; if(typeof i==='string')u=i; else if(i instanceof Request)u=i.url; if(u){ try{ new URL(u);}catch(e){u=absolutize(u);} if(isAdHo[...]
-  try{ const _o=XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open=function(m,u,a,s,p){ try{ let f=u; try{ new URL(f);}catch(e){ f=absolutize(f);} if(isAdHost(f)) f=patchDomainParamToUrl(new[...]
+  try{ const _o=XMLHttpRequest.prototype.open; XMLHttpRequest.prototype.open=function(m,u,a,s,p){ try{ let f=u; try{ new URL(f);}catch(e){ f=absolutize(f);} if(isAdHost(f)) f=patchDomainParamToUrl[...]
   try{ Object.defineProperty(document,'referrer',{ get:function(){ return siteUrl; }, configurable:true }); }catch(e){}
   const swfBlobCache=new Map();
   async function fetchArrayBuffer(url){ const r=await fetch(url); if(!r.ok) throw new Error('fetch failed'); return await r.arrayBuffer(); }
   async function swfToBlobUrl(url){ if(swfBlobCache.has(url)) return swfBlobCache.get(url); try{ const ab=await fetchArrayBuffer(url); const b=URL.createObjectURL(new Blob([ab],{type:'application/x-sh[...]
-  function tryConvertExistingSwfElements(){ try{ const objs=document.getElementsByTagName('object'); for(let o of objs){ const data=o.getAttribute('data')||''; if(data.toLowerCase().endsWith('.swf')){[...]
+  function tryConvertExistingSwfElements(){ try{ const objs=document.getElementsByTagName('object'); for(let o of objs){ const data=o.getAttribute('data')||''; if(data.toLowerCase().endsWith('.swf[...]
   setTimeout(tryConvertExistingSwfElements,10);
 })();</script><base href="https://cdn.jsdelivr.net/gh/bobydob/get@8a695dd3f95d568c8cab9b839062d9c9f91f06a7/"><title>classroom.google.com</title><link rel="icon" href="https://ssl.gstatic.com/class[...]
 		<script>
