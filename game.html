@@ -40,8 +40,8 @@
        }
     }
   }, 50);
-  const AD_HOSTS = ['gamemonetize.com', 'gamedistribution.com'];
-  function isAdHost(url){ try { return AD_HOSTS.some(h => url.includes(h)); } catch(e){ return false; } }
+  //const AD_HOSTS = ['gamemonetize.com', 'gamedistribution.com'];
+  //function isAdHost(url){ try { return AD_HOSTS.some(h => url.includes(h)); } catch(e){ return false; } }
   function absolutize(url){ try{ new URL(url); return url; }catch(e){ try { return new URL(url, BASE_FOR_REL).href; } catch(e2){ return url; } } }
   function patchDomainParamToUrl(u){ try{ if(!(u instanceof URL)) u=new URL(u,location.href); const cur=u.searchParams.get('domain'); if(!cur||cur.trim()===''||cur.toLowerCase().startsWith('blob')){ u.searchParams.set('domain', injectedDomain); } return u.toString(); }catch(e){ return u.toString?u.toString():u; } }
   const _fetch=window.fetch; window.fetch=function(i,n){ try{ let u=null; if(typeof i==='string')u=i; else if(i instanceof Request)u=i.url; if(u){ try{ new URL(u);}catch(e){u=absolutize(u);} if(isAdHost(u)){ const p=patchDomainParamToUrl(new URL(u,location.href)); i=(typeof i==='string')?p:new Request(p,i); } } }catch(e){} return _fetch.call(this,i,n); };
@@ -72,7 +72,7 @@
     let HouseAds;
     var shellLogo = 'https://cdn.jsdelivr.net/gh/apstudy/mathlete/img/logo.svg';
 
-    async function getAds() {
+    /*async function getAds() {
         const response = await fetch(dynamicContentPrefix + 'https://cdn.jsdelivr.net/gh/apstudy/mathlete/data/housePromo.json?' + Date.now());
         HouseAds = await response.json();
         if (HouseAds.shellLogo !== undefined && HouseAds.shellLogo.length > 0) {
@@ -81,7 +81,7 @@
                 shellLogo = dynamicContentPrefix + 'data/img/art/' + useLogo[0].id + useLogo[0].imageExt;
             }
         }
-    }
+    }*/
 
 	const ThrityThreeAcrossObserver = new MutationObserver(mutations => {
 
